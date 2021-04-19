@@ -146,7 +146,7 @@ public class DownloaderUtils {
     }
 
     /**
-     * aks user whether to check for updates
+     * ask user whether to check for updates
      * if yes: checks whether updates are available for the type specified
      *      if yes: ask user to download them all
      *              if yes: trigger download(s)
@@ -157,6 +157,12 @@ public class DownloaderUtils {
             new CheckForDownloadsTask(activity, title, type).execute();
             callback.call(true);
         }, dialog -> callback.call(false));
+    }
+
+    // same as checkForUpdatesAndDownloadAll above, but without question
+    public static void checkForUpdatesAndDownloadAll(final Activity activity, final Download.DownloadType type, @StringRes final int title, final Action1<Boolean> callback) {
+        new CheckForDownloadsTask(activity, title, type).execute();
+        callback.call(true);
     }
 
     private static class CheckForDownloadsTask extends AsyncTaskWithProgressText<Void, List<Download>> {
@@ -174,7 +180,15 @@ public class DownloaderUtils {
         @Override
         protected List<Download> doInBackgroundInternal(final Void[] none) {
             final List<Download> result = new ArrayList<>();
-            final ArrayList<CompanionFileUtils.DownloadedFileData> existingFiles = CompanionFileUtils.availableOfflineMaps(currentType);
+            final ArrayList<CompanionFileUtils.DownloadedFileData> existingFiles = new ArrayList<>();
+            if (currentType.equals(Download.DownloadType.DOWNLOADTYPE_ALL_MAPRELATED)) {
+                final ArrayList<Download.DownloadTypeDescriptor> typeDescriptors =  Download.DownloadType.getOfflineMapTypes();
+                for (Download.DownloadTypeDescriptor typeDescriptor : typeDescriptors) {
+                    existingFiles.addAll(CompanionFileUtils.availableOfflineMaps(typeDescriptor.type));
+                }
+            } else {
+                existingFiles.addAll(CompanionFileUtils.availableOfflineMaps(currentType));
+            }
 
             for (CompanionFileUtils.DownloadedFileData existingFile : existingFiles) {
                 final Download download = checkForUpdate(existingFile);

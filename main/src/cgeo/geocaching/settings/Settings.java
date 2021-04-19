@@ -982,6 +982,22 @@ public class Settings {
         return getInt(R.string.pref_mapdownloader_source, Download.DownloadType.DOWNLOADTYPE_MAP_MAPSFORGE.id);
     }
 
+    public static boolean isMapAutoDownloads() {
+        return getBoolean(R.string.pref_mapAutoDownloads, false);
+    }
+
+    public static int getMapAutoDownloadsInterval() {
+        return getInt(R.string.pref_mapAutoDownloadsInterval, 30);
+    }
+
+    public static long getMapAutoDownloadsLastCheckInS() {
+        return getLong(R.string.pref_mapAutoDownloadsLastCheck, 0);
+    }
+
+    public static void setMapAutoDownloadsLastCheckInS(final long lastCheck) {
+        putLong(R.string.pref_mapAutoDownloadsLastCheck, lastCheck);
+    }
+
     public static void setPqShowDownloadableOnly(final boolean showDownloadableOnly) {
         putBoolean(R.string.pref_pqShowDownloadableOnly, showDownloadableOnly);
     }
@@ -1162,8 +1178,8 @@ public class Settings {
     }
 
     public static boolean isTwitterLoginValid() {
-        return !StringUtils.isBlank(getTokenPublic())
-                && !StringUtils.isBlank(getTokenSecret());
+        return StringUtils.isNotBlank(getTokenPublic())
+                && StringUtils.isNotBlank(getTokenSecret());
     }
 
     public static String getTokenPublic() {
