@@ -90,6 +90,7 @@ public final class MapMarkerUtils {
             .append(cache.getOfflineLogType())
             .append(showPin(cacheListType))
             .append(showFloppyOverlay(cacheListType))
+            .append(cache.isP4NGoodRating())
             .append(assignedMarkers)
             .toHashCode();
 
@@ -161,7 +162,11 @@ public final class MapMarkerUtils {
         } else if (!cache.getLists().isEmpty() && showFloppyOverlay(cacheListType)) {
             insetsBuilder.withInset(new InsetBuilder(R.drawable.marker_stored, Gravity.TOP | Gravity.RIGHT));
         }
-        // top-left: will attend / found / not found / offline-logs
+        // Good P4N Rating
+        if (cache.isP4NGoodRating()) {
+            insetsBuilder.withInset(new InsetBuilder(R.drawable.marker_own, Gravity.TOP | Gravity.LEFT));
+        }
+            // top-left: will attend / found / not found / offline-logs
         if (cache.hasWillAttendForFutureEvent() && !doubleSize) {
             insetsBuilder.withInset(new InsetBuilder(R.drawable.marker_calendar, Gravity.TOP | Gravity.LEFT));
         } else if (!showBigSmileys(cacheListType)) {

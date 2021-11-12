@@ -17,6 +17,8 @@ import cgeo.geocaching.connector.oc.OCApiConnector.ApiSupport;
 import cgeo.geocaching.connector.oc.OCApiLiveConnector;
 import cgeo.geocaching.connector.oc.OCCZConnector;
 import cgeo.geocaching.connector.oc.OCDEConnector;
+import cgeo.geocaching.connector.p4n.P4NConnector;
+import cgeo.geocaching.connector.waze.WazeConnector;
 import cgeo.geocaching.connector.su.SuConnector;
 import cgeo.geocaching.connector.tc.TerraCachingConnector;
 import cgeo.geocaching.connector.trackable.GeokretyConnector;
@@ -81,6 +83,8 @@ public final class ConnectorFactory {
             new GeopeitusConnector(),
             new TerraCachingConnector(),
             new WaymarkingConnector(),
+            P4NConnector.getInstance(),
+            WazeConnector.getInstance(),
             SuConnector.getInstance(),
             InternalConnector.getInstance(),
             UNKNOWN_CONNECTOR // the unknown connector MUST be the last one
