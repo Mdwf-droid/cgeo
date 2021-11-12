@@ -40,8 +40,12 @@ public class GeoItemSelectorUtils {
         tv.setCompoundDrawablesRelativeWithIntrinsicBounds(MapMarkerUtils.getCacheMarker(context.getResources(), cache, CacheListType.MAP).getDrawable(), null, null, null);
 
         final StringBuilder text = new StringBuilder(cache.getShortGeocode());
-        text.append(Formatter.SEPARATOR).append("D ").append(cache.getDifficulty());
-        text.append(Formatter.SEPARATOR).append("T ").append(cache.getTerrain());
+        if (cache.getDifficulty() > 0.1f) {
+            text.append(Formatter.SEPARATOR).append("D ").append(cache.getDifficulty());
+        }
+        if (cache.getTerrain() > 0.1f) {
+            text.append(Formatter.SEPARATOR).append("T ").append(cache.getTerrain());
+        }
 
         final TextView infoView = (TextView) view.findViewById(R.id.info);
         infoView.setText(text);
@@ -54,7 +58,7 @@ public class GeoItemSelectorUtils {
         final TextView tv = (TextView) view.findViewById(R.id.text);
         tv.setText(waypoint.getName());
 
-        tv.setCompoundDrawablesRelativeWithIntrinsicBounds(MapMarkerUtils.getWaypointMarker(context.getResources(), waypoint).getDrawable(), null, null, null);
+        tv.setCompoundDrawablesRelativeWithIntrinsicBounds(MapMarkerUtils.getWaypointMarker(context.getResources(), waypoint, false).getDrawable(), null, null, null);
 
         final StringBuilder text = new StringBuilder(waypoint.getShortGeocode());
         final Geocache parentCache = waypoint.getParentGeocache();
